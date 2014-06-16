@@ -8,7 +8,6 @@
 #
 
 import requests
-import json
 import sys
 
 
@@ -20,7 +19,7 @@ def shrink(image):
     r = requests.post(url, data=data, auth=auth)
 
     if r.status_code == 201:
-        result = json.loads(r.text)
+        result = r.json()
         input_size = result['input']['size'] / 1024
         output_size = result['output']['size'] / 1024
         output_ratio = result['output']['ratio']
