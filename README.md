@@ -3,6 +3,12 @@ tinypng-cli.py
 
 Advanced command line client to tinypng.com
 
+### Instalation
+    Under linux (Ubuntu)
+    1. Install pip3: sudo apt-get install python3-pip
+    2. Add run permissions to script: chmod +x tinypng-cli.py 
+
+
 ### Usage
 
     ./tinypng-cli.py API_KEY IN OUT
@@ -17,6 +23,7 @@ Where
     store results in OUT (including subdirectories tree) - batch mode.  
 
 ### Examples:
+
     ./tinypng-cli.py 2354425 /media/data/in/infile.png /media/data/in/outfile.png
     Convert file "/media/data/in/infile.png" and store results in "/media/data/in/outfile.png" 
 
@@ -26,8 +33,6 @@ Where
 
     ./tinypng-cli.py 2354425 /media/data/in/ /media/data/in/
     Run convert for each file in "/media/data/in/" and store result in "/media/data/in/" 
-
-    
 
 ### Output:
 

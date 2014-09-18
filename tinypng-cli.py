@@ -70,7 +70,15 @@ def listPngFiles(inDir):
 
 
 def help():
-    print("FIXME: add help"); 
+    print("./tinypng-cli.py API_KEY IN OUT");
+    print("Where: ");
+    print("API_KEY - your api key. Can be obtained at <https://tinypng.com/developers>  ");
+    print("IN - input file or directory   ");
+    print("OUT - output file or directory  ");
+    print("When IN and OUT are files script use IN as input and store result at OUT  ");
+    print("When IN is file and OUT is directory script store result in OUT directory with same as IN filename  ");
+    print("When IN and OUT are directories in this case script run for each file (including subdirectories in IN) and  ");
+    print("store results in OUT (including subdirectories tree) - batch mode.  ");
 
 
 # Main function
