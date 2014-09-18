@@ -8,13 +8,13 @@ Advanced command line client to tinypng.com
     ./tinypng-cli.py API_KEY IN OUT
 
 Where 
-    API_KEY - your api key. Can be obtained at <https://tinypng.com/developers>
-    IN - input file or directory 
-    OUT - output file or directory
-    When IN and OUT are files script use IN as input and store result at OUT
-    When IN is file and OUT is directory script store result in OUT directory with same as IN filename
-    When IN and OUT are directories in this case script run for each file (including subdirectories in IN) and 
-    store results in OUT (including subdirectories tree) - batch mode.
+    API_KEY - your api key. Can be obtained at <https://tinypng.com/developers>  
+    IN - input file or directory   
+    OUT - output file or directory  
+    When IN and OUT are files script use IN as input and store result at OUT  
+    When IN is file and OUT is directory script store result in OUT directory with same as IN filename  
+    When IN and OUT are directories in this case script run for each file (including subdirectories in IN) and  
+    store results in OUT (including subdirectories tree) - batch mode.  
 
 ### Examples:
     ./tinypng-cli.py 2354425 /media/data/in/infile.png /media/data/in/outfile.png
@@ -29,7 +29,7 @@ Where
 
     
 
-Output:
+### Output:
 
     input size: 203 kb
     output size: 62 kb
