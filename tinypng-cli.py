@@ -1,20 +1,29 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 #
 # name     : tinypng-cli, cli for tinypng
-# author   : Xu Xiaodong <xxdlhy@gmail.com>
+# author   : Xu Xiaodong <xxdlhy@gmail.com>; Nikolay Kulchicki
 # license  : GPL
 # created  : 2014 Jun 15
-# modified : 2014 Jun 16
+# fork     : 2014 Sep 18
+# modified : 2014 Sep 18
 #
 
 import requests
 import sys
+import os
 
+# main function to run tinny png shrinking
+def fileToFile(inFilePath, outFilePath, key):
+    print(inFilePath + " --> " + outFilePath);
 
-def shrink(image):
+    #check if directory exists
+    saveDir = os.path.dirname(outFilePath);
+    if os.path.isdir(saveDir) != True:
+        os.makedirs(saveDir);
+
     url = 'https://api.tinypng.com/shrink'
-    auth = requests.auth.HTTPBasicAuth('api', 'oBu_epefiJ9XJNKF5iiNO5kOZluIWrzg')
-    data = open(image, 'rb')
+    auth = requests.auth.HTTPBasicAuth('api', key)
+    data = open(inFilePath, 'rb')
 
     r = requests.post(url, data=data, auth=auth)
 
@@ -26,21 +35,72 @@ def shrink(image):
         output_url = result['output']['url']
         print('input size: %s kb\noutput size: %s kb\noutput ratio: %s\noutput url: %s' % (input_size, output_size, output_ratio, output_url))
 
-        save(output_url, 'output.png')
+        data = open(outFilePath, 'wb');
+        r = requests.get(output_url);
+
+        if r.status_code == 200:
+            data.write(r.content)
+        else:
+            print('Save image failed :(')
     else:
         print('Compression failed :(')
+    print();
 
 
-def save(url, image):
-    data = open(image, 'wb')
-    r = requests.get(url)
+# shrink file and store in directory with same name
+def fileToDirectory(inFilePath, outFilePath, key):
+    onlyFileName = os.path.basename(inFilePath);
 
-    if r.status_code == 200:
-        data.write(r.content)
-    else:
-        print('Save image failed :(')
+    toFilePath = os.path.join(outFilePath, onlyFileName);
+    fileToFile(inFilePath, toFilePath, key);
+
+# run shrink from one directory to another (bath mode)
+def directoryToDirectory(inDir, outDir, key):
+    dirContent = listPngFiles(inDir);
+    for f in dirContent:
+        relativePath = os.path.relpath(f, inDir);
+        fullOutFileName = os.path.join(outDir, relativePath);
+        
+        #call file to file convertation
+        fileToFile(f, fullOutFileName, key);
+
+# recursivly list png files in given directory 
+def listPngFiles(inDir):
+    return [os.path.join(dp, f) for dp, dn, filenames in os.walk(inDir) for f in filenames if os.path.splitext(f)[1] == '.png'];
 
 
+def help():
+    print("FIXME: add help"); 
+
+
+# Main function
 if __name__ == '__main__':
-    for image in sys.argv[1:]:
-        shrink(image)
+    #check params
+    if len(sys.argv) != 4:
+        help();
+        exit(1); 
+
+    apiKey = sys.argv[1];
+    inPath = sys.argv[2];
+    outPath = sys.argv[3];
+
+    # check run modes
+    isInPathFile = os.path.isfile(inPath);
+    isOutPathFile = os.path.isfile(outPath);
+
+    if isInPathFile == True and isOutPathFile == True:
+        # file to file convertion
+        fileToFile(inPath, outPath, apiKey);
+    
+    elif isInPathFile == True and isOutPathFile == False:
+        # file -> to directory
+        fileToDirectory(inPath, outPath, apiKey);
+    elif isInPathFile == False and isOutPathFile == False:
+        # directory to directory convertion (bath mode)
+        directoryToDirectory(inPath, outPath, apiKey);
+    else:
+        print("Can not convert directory to file");
+        help();
+        exit(1);
+    
+    exit(0);
