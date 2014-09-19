@@ -43,4 +43,5 @@ Where
 
 ### See also:
 
-    <https://tinypng.com>
+    <https://tinypng.com>  
+
