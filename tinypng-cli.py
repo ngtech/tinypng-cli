@@ -66,7 +66,7 @@ def directoryToDirectory(inDir, outDir, key):
 
 # recursivly list png files in given directory 
 def listPngFiles(inDir):
-    return [os.path.join(dp, f) for dp, dn, filenames in os.walk(inDir) for f in filenames if os.path.splitext(f)[1] == '.png'];
+    return [os.path.join(dp, f) for dp, dn, filenames in os.walk(inDir) for f in filenames if ( os.path.splitext(f)[1] == '.png' or os.path.splitext(f)[1] == '.jpg' or os.path.splitext(f)[1] == '.jpeg')];
 
 
 def help():
